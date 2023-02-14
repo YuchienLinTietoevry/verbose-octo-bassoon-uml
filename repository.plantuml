@@ -1,0 +1,53 @@
+@startuml a
+
+interface ISpecification<<Entity>> {
+    +bool IsSatisfiedBy(Entity e)
+
+    +ISpecification<Entity> And(ISpecification<Entity> other)
+    +ISpecification<Entity> Or(ISpecification<Entity> other)
+    +ISpecification<Entity> Not()
+}
+
+interface IRepository<<Entity>> {
+    +void Add(Entity e)
+    +void Remove(ISpecification<Entity> query)
+    +IList<Entity> Query(ISpecification<Entity> query)
+}
+
+class RepositoryFactory {
+    +FooRepository CreateFooRepository()
+    +BarRepository CreateBarRepository()
+}
+
+class FooRepository {
+    -Database Connect()
+    +void Add(Foo e)
+    +void Remove(ISpesification<Foo> query)
+    +IList<Foo> Query(ISpesification<Foo> query)
+}
+
+class BarRepository {
+    -Database Connect()
+    +void Add(Bar e)
+    +void Remove(ISpesification<Bar> query)
+    +IList<Bar> Query(ISpesification<Bar> query)
+}
+
+class Database {
+    -FooDatabase foo
+    -BarDatabase bar
+}
+
+IRepository ..> ISpecification
+
+FooRepository ..|> IRepository
+FooRepository ..> Database
+BarRepository ..|> IRepository
+BarRepository ..> Database
+
+RepositoryFactory --> FooRepository
+RepositoryFactory --> BarRepository
+
+@enduml
+
+
