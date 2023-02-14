@@ -1,0 +1,62 @@
+@startuml a
+interface ISpecification<<Entity>> {
+    +bool IsSatisfiedBy(Entity e)
+
+    +ISpecification<Entity> And(ISpecification<Entity> other)
+    +ISpecification<Entity> Or(ISpecification<Entity> other)
+    +ISpecification<Entity> Not()
+}
+
+abstract CompositeSpecification<<Entity>> {
+    +{abstract} bool IsSatisfiedBy(Entity e)
+
+    +ISpecification<Entity> And(ISpecification<Entity> other)
+    +Ispecification<Entity> Or(ISpecification<Entity> other)
+    +ISpecification<Entity> Not()
+}
+
+class AndSpecification<<Entity>> {
+    -ISpecification<Entity> spec1
+    -ISpecification<Entity> spec2
+
+    +bool IsSatisfiedBy(Entity e)
+}
+
+class OrSpecification<<Entity>> {
+    -ISpecification<Entity> spec1
+    -ISpecification<Entity> spec2
+
+    +bool IsSatisfiedBy(Entity e)
+}
+
+class NotSpecification<<Entity>> {
+    -ISpecification<Entity> spec
+    
+    +bool IsSatisfiedBy(Entity e)
+}
+
+class FooSpesification<<Entity>> {
+    +bool IsSatisfiedBy(Entity e)
+}
+
+class BarSpesification<<Entity>> {
+    +bool IsSatisfiedBy(Entity e)
+}
+
+CompositeSpecification ..|> ISpecification
+CompositeSpecification ..> AndSpecification
+CompositeSpecification ..> OrSpecification
+CompositeSpecification ..> NotSpecification
+
+AndSpecification --|> CompositeSpecification
+AndSpecification ..|> ISpecification
+
+OrSpecification --|> CompositeSpecification
+OrSpecification ..|> ISpecification
+
+NotSpecification --|> CompositeSpecification
+NotSpecification ..|> ISpecification
+
+FooSpesification --|> CompositeSpecification
+BarSpesification --|> CompositeSpecification
+@enduml
